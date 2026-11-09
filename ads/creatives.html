@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>X-POS ad creatives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Open with ?ad=retail|branches|online|global&lang=en|si — each ad is 1080×1080.
+     Without parameters every ad is shown for review. */
+  :root {
+    --ink: #0F172A; --ink-2: #334155; --muted: #475569; --line: #E2E8F0; --ground: #F8FAFC;
+    --indigo: #4F46E5; --indigo-dark: #3730A3; --indigo-soft: #EEF2FF;
+    --emerald: #10B981; --emerald-dark: #047857; --emerald-soft: #ECFDF5;
+    --head: "Space Grotesk", "Noto Sans Sinhala", sans-serif; --body: "Inter", "Noto Sans Sinhala", sans-serif;
+  }
+  .si { --head: "Noto Sans Sinhala", sans-serif; --body: "Noto Sans Sinhala", "Inter", sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #CBD5E1; font-family: var(--body); display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; }
+  body.single { padding: 0; gap: 0; background: none; }
+  .ad { width: 1080px; height: 1080px; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 80px; font-family: var(--body); background: var(--ground); color: var(--ink); }
+  .ad h1 { font-family: var(--head); margin: 0; font-size: 92px; line-height: 1.04; letter-spacing: -0.02em; }
+  .ad.si h1 { font-size: 72px; line-height: 1.32; letter-spacing: 0; }
+  .ad h1 em { font-style: normal; color: var(--indigo); }
+  .ad .sub { margin: 26px 0 0; font-size: 34px; line-height: 1.4; color: var(--ink-2); max-width: 860px; }
+  .ad.si .sub { font-size: 30px; line-height: 1.6; }
+  .logo { display: flex; align-items: center; gap: 14px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 36px; }
+  .logo-mark { width: 56px; height: 56px; border-radius: 14px; background: var(--indigo); color: #fff; display: grid; place-items: center; font-size: 30px; }
+  .logo small { font: 500 22px "Inter", sans-serif; opacity: .7; }
+  .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 56px; }
+  .pill { font-size: 24px; font-weight: 600; padding: 10px 22px; border-radius: 999px; background: var(--emerald-soft); color: var(--emerald-dark); }
+  .cta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; background: var(--ink); color: #fff; border-radius: 22px; padding: 28px 36px; font-size: 32px; font-weight: 700; font-family: var(--head); }
+  .cta span.btn { background: var(--emerald); color: #052e1f; border-radius: 999px; padding: 14px 30px; font-size: 28px; white-space: nowrap; }
+  .ad.si .cta { font-size: 28px; }
+  .ad.si .cta span.btn { font-size: 25px; }
+
+  /* Bill mock */
+  .bill { margin-top: 44px; background: #fff; border: 2px solid var(--line); border-radius: 22px; overflow: hidden; width: 100%; box-shadow: 0 30px 60px -36px rgba(15,23,42,.45); }
+  .bill-bar { background: var(--ink); color: #fff; display: flex; justify-content: space-between; padding: 18px 28px; font-size: 24px; font-weight: 600; }
+  .bill-row { display: flex; justify-content: space-between; padding: 16px 28px; font-size: 26px; border-bottom: 2px solid var(--line); color: var(--ink-2); }
+  .bill-row b { color: var(--ink); }
+  .bill-total { font-family: "Space Grotesk", "Noto Sans Sinhala", sans-serif; font-weight: 700; font-size: 34px; color: var(--ink); border-bottom: 0; }
+
+  /* Branch rows */
+  .dark { background: var(--ink); color: #E2E8F0; }
+  .dark h1 { color: #fff; }
+  .dark h1 em { color: #A5B4FC; }
+  .dark .sub { color: #CBD5E1; }
+  .dark .logo { color: #fff; }
+  .dark .cta { background: #fff; color: var(--ink); }
+  .branches { margin-top: 44px; display: flex; flex-direction: column; gap: 14px; }
+  .branch { display: grid; grid-template-columns: 1.4fr 1fr 1fr; align-items: center; gap: 16px; background: rgba(255,255,255,.07); border: 2px solid rgba(255,255,255,.12); border-radius: 18px; padding: 18px 26px; font-size: 26px; }
+  .branch b { color: #fff; font-size: 28px; }
+  .branch .v { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: #fff; text-align: right; }
+  .branch .k { color: #94A3B8; font-size: 20px; display: block; font-family: var(--body); font-weight: 500; }
+
+  /* Online */
+  .indigo { background: var(--indigo-dark); color: #E0E7FF; }
+  .indigo h1 { color: #fff; }
+  .indigo h1 em { color: #6EE7B7; }
+  .indigo .sub { color: #E0E7FF; }
+  .indigo .logo { color: #fff; }
+  .indigo .logo-mark { background: #fff; color: var(--indigo-dark); }
+  .indigo .pill { background: rgba(255,255,255,.14); color: #fff; }
+  .indigo .cta { background: #fff; color: var(--ink); }
+  .chips { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .chip { font-size: 30px; font-weight: 600; padding: 16px 28px; border-radius: 999px; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.25); color: #fff; }
+  .chip.g { background: var(--emerald); border-color: var(--emerald); color: #052e1f; }
+
+  /* Global */
+  .mods { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .mod { background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: 22px 24px; font-size: 26px; font-weight: 600; }
+  .mod i { display: block; font-style: normal; font-family: "Space Grotesk", sans-serif; color: var(--indigo); font-size: 22px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<!-- RETAIL -->
+<section class="ad" data-ad="retail" data-lang="en">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">For retail shops</span></div>
+  <h1>Still billing from a <em>bill book</em>?</h1>
+  <p class="sub">Billing, live stock and daily profit — on one screen.</p>
+  <div class="bill">
+    <div class="bill-bar"><span>X-POS · New Sale</span><span>80mm bill</span></div>
+    <div class="bill-row"><span>Cement 50kg × 10</span><b>24,500</b></div>
+    <div class="bill-row"><span>PVC pipe 1" × 6</span><b>7,800</b></div>
+    <div class="bill-row bill-total"><span>Total</span><span>LKR 32,300</span></div>
+  </div>
+  <div class="cta"><span>Free demo for your shop</span><span class="btn">WhatsApp us</span></div>
+</section>
+
+<section class="ad si" data-ad="retail" data-lang="si">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">සිල්ලර කඩ සඳහා</span></div>
+  <h1>තවමත් <em>බිල් පොතෙන්</em> ද?</h1>
+  <p class="sub">බිල් කැපීම, live තොග සහ දිනපතා ලාභය — එකම තිරයක.</p>
+  <div class="bill">
+    <div class="bill-bar"><span>X-POS · නව විකුණුම</span><span>80mm බිල</span></div>
+    <div class="bill-row"><span>සිමෙන්ති 50kg × 10</span><b>24,500</b></div>
+    <div class="bill-row"><span>PVC බට 1" × 6</span><b>7,800</b></div>
+    <div class="bill-row bill-total"><span>එකතුව</span><span>රු. 32,300</span></div>
+  </div>
+  <div class="cta"><span>ඔබේ කඩයට නොමිලේ demo</span><span class="btn">WhatsApp කරන්න</span></div>
+</section>
+
+<!-- BRANCHES -->
+<section class="ad dark" data-ad="branches" data-lang="en">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">Multi-branch</span></div>
+  <h1>Every branch. <em>One screen.</em></h1>
+  <p class="sub">Stock, cash and profit for each branch — without a single phone call.</p>
+  <div class="branches">
+    <div class="branch"><b>Colombo</b><span class="v"><span class="k">Stock</span>1,284</span><span class="v"><span class="k">Cash today</span>212,400</span></div>
+    <div class="branch"><b>Kandy</b><span class="v"><span class="k">Stock</span>906</span><span class="v"><span class="k">Cash today</span>148,900</span></div>
+    <div class="branch"><b>Galle</b><span class="v"><span class="k">Stock</span>731</span><span class="v"><span class="k">Cash today</span>97,250</span></div>
+  </div>
+  <div class="cta"><span>See it on your business</span><span class="btn">Book a demo</span></div>
+</section>
+
+<section class="ad dark si" data-ad="branches" data-lang="si">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">ශාඛා කිහිපයක්</span></div>
+  <h1>හැම ශාඛාවක්ම, <em>එකම තිරයකින්.</em></h1>
+  <p class="sub">හැම ශාඛාවකම තොග, මුදල් සහ ලාභය — එක call එකක්වත් නැතිව.</p>
+  <div class="branches">
+    <div class="branch"><b>කොළඹ</b><span class="v"><span class="k">තොග</span>1,284</span><span class="v"><span class="k">අද මුදල්</span>212,400</span></div>
+    <div class="branch"><b>මහනුවර</b><span class="v"><span class="k">තොග</span>906</span><span class="v"><span class="k">අද මුදල්</span>148,900</span></div>
+    <div class="branch"><b>ගාල්ල</b><span class="v"><span class="k">තොග</span>731</span><span class="v"><span class="k">අද මුදල්</span>97,250</span></div>
+  </div>
+  <div class="cta"><span>ඔබේ ව්‍යාපාරයේම බලන්න</span><span class="btn">Demo එකක්</span></div>
+</section>
+
+<!-- ONLINE -->
+<section class="ad indigo" data-ad="online" data-lang="en">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">Online store included</span></div>
+  <h1>Your shop, <em>now online.</em></h1>
+  <p class="sub">A web store that knows your shop stock — sell in the shop and the website updates.</p>
+  <div class="chips">
+    <span class="chip g">PayHere</span><span class="chip g">Koko · pay in 3</span><span class="chip g">Cash on delivery</span>
+    <span class="chip">Delivery by district</span><span class="chip">Orders in your POS</span><span class="chip">Your brand &amp; colours</span>
+  </div>
+  <div class="cta"><span>Launch your web store</span><span class="btn">Learn more</span></div>
+</section>
+
+<section class="ad indigo si" data-ad="online" data-lang="si">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS</div><span class="pill">ඔන්ලයින් ස්ටෝර් එකත් එක්කම</span></div>
+  <h1>ඔබේ කඩය, <em>දැන් ඔන්ලයින්.</em></h1>
+  <p class="sub">කඩේ තොගය දන්නා වෙබ් ස්ටෝර් එකක් — කඩේ විකුණුවොත් වෙබ් එකත් update වෙනවා.</p>
+  <div class="chips">
+    <span class="chip g">PayHere</span><span class="chip g">Koko · වාරික 3</span><span class="chip g">Cash on Delivery</span>
+    <span class="chip">දිස්ත්‍රික්කය අනුව ඩිලිවරි</span><span class="chip">ඇණවුම් POS එකේම</span><span class="chip">ඔබේ brand එක</span>
+  </div>
+  <div class="cta"><span>ඔබේ වෙබ් ස්ටෝර් එක පටන් ගන්න</span><span class="btn">වැඩි විස්තර</span></div>
+</section>
+
+<!-- GLOBAL -->
+<section class="ad" data-ad="global" data-lang="en">
+  <div class="top"><div class="logo"><span class="logo-mark">X</span>X-POS <small>by AizoTech</small></div><span class="pill">Cloud POS</span></div>
+  <h1>Run retail from <em>any browser.</em></h1>
+  <p class="sub">POS, multi-branch stock, a web store, payroll and reports — your own instance, ready to brand.</p>
+  <div class="mods">
+    <div class="mod"><i>01</i>Point of sale</div><div class="mod"><i>02</i>Stock</div><div class="mod"><i>03</i>Web store</div>
+    <div class="mod"><i>04</i>Payroll</div><div class="mod"><i>05</i>Money Book</div><div class="mod"><i>06</i>Reports</div>
+  </div>
+  <div class="cta"><span>Book a free online demo</span><span class="btn">Learn more</span></div>
+</section>
+
+<script>
+  var q = new URLSearchParams(location.search);
+  if (q.get('ad')) {
+    document.body.classList.add('single');
+    document.querySelectorAll('.ad').forEach(function (el) {
+      var keep = el.dataset.ad === q.get('ad') && el.dataset.lang === (q.get('lang') || 'en');
+      if (!keep) el.remove();
+    });
+  }
+</script>
+</body>
+</html>
