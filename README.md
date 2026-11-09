@@ -5,19 +5,22 @@ Marketing materials for **X-POS** by AizoTech — POS, multi-branch stock, onlin
 | Folder | What's inside |
 |---|---|
 | `site/` | Landing page — `index.html` (English), `si/index.html` (සිංහල). Static HTML + one CSS file, no build step. |
-| `deck/` | Sales pitch deck (English + Sinhala) |
-| `ads/` | Facebook / Instagram ad campaign — audiences, ad copy, budget plan |
-| `brochure/` | One-page brochure (print + WhatsApp) |
+| `deck/` | 10-slide sales deck. `x-pos-deck.html` (press **L** or add `?lang=si` for Sinhala) + ready PDFs `X-POS-Deck-EN.pdf` / `-SI.pdf` |
+| `ads/` | `facebook-campaign.md` — ad sets, targeting, budgets, EN + SI copy, WhatsApp greeting. `creatives/` — 1080×1080 ad images |
+| `brochure/` | One-page A4 brochure — PDFs to print, PNGs to send on WhatsApp, `brochure.html` source |
+
+The PDFs and PNGs are rendered from the HTML files. After filling the placeholders, re-export: open the HTML in Chrome → Print → Save as PDF (background graphics on).
 
 ## Before going live — fill the placeholders
 
 Search the repo for `[` and replace:
 
-- `[PHONE]`, `[EMAIL]`, `[WHATSAPP_NUMBER]` — contact details (WhatsApp in international format, no `+`, e.g. `9477xxxxxxx`)
+- `[PHONE]`, `[EMAIL]`, `[WEBSITE]`, `[WHATSAPP_NUMBER]` — contact details (WhatsApp in international format, no `+`, e.g. `9477xxxxxxx`)
+- `[LANDING_URL]` — where the site is hosted (used in the ad copy)
 - `[LKR —]` / `[රු. —]` — plan prices
 
 ```bash
-grep -rn '\[PHONE\]\|\[EMAIL\]\|\[WHATSAPP_NUMBER\]\|\[LKR\|\[රු' .
+grep -rnE '\[(PHONE|EMAIL|WEBSITE|WHATSAPP_NUMBER|LANDING_URL|LKR|රු)' --include='*.html' --include='*.md' .
 ```
 
 ## Preview the site locally
@@ -32,7 +35,7 @@ cd site && python3 -m http.server 8080
 Any static host works — point it at the `site/` folder:
 
 - **Cloudflare Pages / Netlify** — connect this repo, build command: *none*, output directory: `site`
-- **GitHub Pages** — Settings → Pages → deploy from branch `main`, folder `/site` is not offered, so either move `site/` to `docs/` or use a Pages Actions workflow
+- **GitHub Pages** — Pages only serves from `/` or `/docs`, so rename `site/` to `docs/`, then Settings → Pages → branch `main`, folder `/docs`. (Pages on a private repo needs a paid GitHub plan.)
 
 ## Feature claims
 

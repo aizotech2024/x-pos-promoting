@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>X-POS — Brochure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* One A4 page. ?lang=si for Sinhala. Print with background graphics on. */
+  :root {
+    --ink: #0F172A; --ink-2: #334155; --muted: #475569; --line: #E2E8F0; --ground: #F8FAFC;
+    --indigo: #4F46E5; --indigo-dark: #3730A3; --indigo-soft: #EEF2FF;
+    --emerald: #10B981; --emerald-dark: #047857; --emerald-soft: #ECFDF5;
+    --head: "Space Grotesk", "Noto Sans Sinhala", sans-serif; --body: "Inter", "Noto Sans Sinhala", sans-serif;
+  }
+  html[lang="si"] { --head: "Noto Sans Sinhala", sans-serif; --body: "Noto Sans Sinhala", "Inter", sans-serif; }
+  html[lang="en"] [data-si], html[lang="si"] [data-en] { display: none !important; }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #CBD5E1; font-family: var(--body); color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 210mm; height: 297mm; margin: 0 auto; background: #fff; display: flex; flex-direction: column; overflow: hidden; }
+  @media screen { .page { margin: 24px auto; box-shadow: 0 10px 40px rgba(0,0,0,.2); } }
+  h1, h2, h3 { font-family: var(--head); margin: 0; }
+  p { margin: 0; }
+
+  .head { background: var(--ink); color: #CBD5E1; padding: 13mm 14mm 11mm; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 22px; color: #fff; }
+  .logo-mark { width: 36px; height: 36px; border-radius: 9px; background: var(--indigo); display: grid; place-items: center; font-size: 19px; }
+  .logo small { font: 500 13px "Inter", sans-serif; color: #94A3B8; }
+  .head h1 { color: #fff; font-size: 40px; line-height: 1.08; letter-spacing: -0.02em; margin-top: 9mm; }
+  html[lang="si"] .head h1 { font-size: 32px; line-height: 1.38; letter-spacing: 0; }
+  .head h1 em { font-style: normal; color: #A5B4FC; }
+  .head p { margin-top: 4mm; font-size: 15px; line-height: 1.55; max-width: 150mm; }
+  html[lang="si"] .head p { font-size: 14px; line-height: 1.7; }
+  .ticks { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 5mm; font-size: 13px; color: #E2E8F0; }
+  .ticks span::before { content: "✓ "; color: var(--emerald); font-weight: 700; }
+
+  .main { padding: 9mm 14mm 0; display: flex; flex-direction: column; gap: 7mm; flex: 1; }
+  .label { font-size: 12px; font-weight: 700; color: var(--emerald-dark); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 3mm; }
+  html[lang="si"] .label { letter-spacing: 0; text-transform: none; font-size: 13px; }
+  .mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; }
+  .mod { border: 1px solid var(--line); border-radius: 10px; padding: 4mm; background: var(--ground); }
+  .mod h3 { font-size: 15px; margin-bottom: 2mm; color: var(--indigo-dark); }
+  html[lang="si"] .mod h3 { font-size: 14px; }
+  .mod ul { margin: 0; padding: 0 0 0 14px; font-size: 12px; line-height: 1.5; color: var(--ink-2); }
+  html[lang="si"] .mod ul { font-size: 11.5px; line-height: 1.6; }
+  .mod li::marker { color: var(--emerald); }
+
+  .online { background: var(--indigo-dark); color: #E0E7FF; border-radius: 12px; padding: 5mm 6mm; display: grid; grid-template-columns: 1.1fr 1fr; gap: 6mm; align-items: center; }
+  .online h2 { color: #fff; font-size: 19px; line-height: 1.25; }
+  html[lang="si"] .online h2 { font-size: 16px; line-height: 1.5; }
+  .online p { font-size: 12.5px; line-height: 1.55; margin-top: 2mm; }
+  .chips { display: flex; flex-wrap: wrap; gap: 2mm; }
+  .chip { font-size: 12px; font-weight: 600; padding: 1.4mm 3.2mm; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; }
+  .chip.g { background: var(--emerald); color: #052e1f; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .steps { display: flex; flex-direction: column; gap: 2.6mm; }
+  .step { display: flex; gap: 3mm; align-items: flex-start; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+  .step b { color: var(--ink); }
+  .step i { font-style: normal; flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--indigo); color: #fff; display: grid; place-items: center; font: 700 12px "Space Grotesk", sans-serif; }
+  .who { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5mm; }
+  .who span { font-size: 12.5px; font-weight: 600; border-radius: 8px; padding: 2.4mm 3mm; background: var(--emerald-soft); color: var(--emerald-dark); }
+
+  .foot { margin-top: auto; background: var(--indigo); color: #fff; padding: 6mm 14mm; display: flex; justify-content: space-between; align-items: center; gap: 6mm; }
+  .foot h2 { font-size: 20px; }
+  html[lang="si"] .foot h2 { font-size: 17px; }
+  .foot p { font-size: 12.5px; color: #E0E7FF; margin-top: 1mm; }
+  .contact { text-align: right; font-size: 14px; line-height: 1.7; font-weight: 600; }
+  .ph { background: #FEF3C7; color: #78350F; border-radius: 4px; padding: 0 5px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="head">
+    <div class="logo"><span class="logo-mark">X</span>X-POS <small>by AizoTech</small></div>
+    <h1 data-en>Run your whole business from <em>one screen</em>.</h1>
+    <h1 data-si>ඔබේ මුළු ව්‍යාපාරයම <em>එකම තිරයකින්</em>.</h1>
+    <p data-en>Billing, stock across every branch, your own online store, staff salaries and profit reports — one simple system, built in Sri Lanka for Sri Lankan businesses.</p>
+    <p data-si>බිල් කැපීම, සියලු ශාඛාවල තොග, ඔබේම ඔන්ලයින් ස්ටෝර් එක, සේවක වැටුප් සහ ලාභ වාර්තා — ශ්‍රී ලාංකික ව්‍යාපාර වෙනුවෙන් හැදූ එකම සරල පද්ධතියක්.</p>
+    <div class="ticks">
+      <span data-en>Sinhala-ready bills</span><span data-si>සිංහලෙන් බිල්පත්</span>
+      <span>PayHere · Koko · COD</span>
+      <span data-en>PC, tablet &amp; phone</span><span data-si>PC, ටැබ් සහ ෆෝන්</span>
+      <span data-en>Setup included</span><span data-si>සැකසීම ඇතුළත්</span>
+    </div>
+  </header>
+
+  <main class="main">
+    <section>
+      <div class="label"><span data-en>What's inside</span><span data-si>ඇතුළත් දේ</span></div>
+      <div class="mods">
+        <div class="mod"><h3 data-en>Point of sale</h3><h3 data-si>විකුණුම් (POS)</h3>
+          <ul data-en><li>Barcode billing</li><li>80mm thermal &amp; A4 bills</li><li>Split &amp; credit sales</li><li>Quotations, warranty</li></ul>
+          <ul data-si><li>Barcode බිල් කැපීම</li><li>80mm thermal සහ A4 බිල්</li><li>බෙදූ සහ ණය විකුණුම්</li><li>Quotation, වගකීම් කාලය</li></ul></div>
+        <div class="mod"><h3 data-en>Stock</h3><h3 data-si>තොග</h3>
+          <ul data-en><li>Per branch &amp; location</li><li>Movement history</li><li>Colours &amp; variants</li><li>Barcode labels</li></ul>
+          <ul data-si><li>ශාඛාව සහ ගබඩාව අනුව</li><li>චලන ඉතිහාසය</li><li>වර්ණ සහ ප්‍රභේද</li><li>Barcode ලේබල්</li></ul></div>
+        <div class="mod"><h3 data-en>Online store</h3><h3 data-si>ඔන්ලයින් ස්ටෝර්</h3>
+          <ul data-en><li>Your branded web shop</li><li>PayHere, Koko, COD</li><li>Delivery by district</li><li>Orders in the POS</li></ul>
+          <ul data-si><li>ඔබේම brand වෙබ් ස්ටෝර්</li><li>PayHere, Koko, COD</li><li>දිස්ත්‍රික්කය අනුව ඩිලිවරි</li><li>ඇණවුම් POS එකේම</li></ul></div>
+        <div class="mod"><h3 data-en>Staff &amp; payroll</h3><h3 data-si>සේවක සහ වැටුප්</h3>
+          <ul data-en><li>Employee records</li><li>QR + location check-in</li><li>Salary payments</li><li>EPF / ETF report</li></ul>
+          <ul data-si><li>සේවක තොරතුරු</li><li>QR + ස්ථාන පැමිණීම</li><li>වැටුප් ගෙවීම්</li><li>EPF / ETF වාර්තාව</li></ul></div>
+        <div class="mod"><h3 data-en>Money &amp; reports</h3><h3 data-si>මුදල් සහ වාර්තා</h3>
+          <ul data-en><li>Money Book per branch</li><li>Day-wise &amp; net profit</li><li>Item-wise sales</li><li>VAT / tax, expenses</li></ul>
+          <ul data-si><li>ශාඛා Money Book</li><li>දිනපතා සහ ශුද්ධ ලාභය</li><li>භාණ්ඩ අනුව විකුණුම්</li><li>VAT / බදු, වියදම්</li></ul></div>
+        <div class="mod"><h3 data-en>Control</h3><h3 data-si>පාලනය</h3>
+          <ul data-en><li>Role-based access</li><li>Branch-locked users</li><li>Dealer price approvals</li><li>Team chat &amp; alerts</li></ul>
+          <ul data-si><li>භූමිකාව අනුව ප්‍රවේශය</li><li>ශාඛාවට සීමා කළ පරිශීලකයන්</li><li>ඩීලර් මිල අනුමැතිය</li><li>කණ්ඩායම් chat සහ දැනුම්දීම්</li></ul></div>
+      </div>
+    </section>
+
+    <section class="online">
+      <div>
+        <h2 data-en>Your shop and your website, finally connected.</h2>
+        <h2 data-si>ඔබේ කඩයි වෙබ් සයිට් එකයි, දැන් එකට වැඩ.</h2>
+        <p data-en>Products, prices and stock come straight from your POS. Sell in the shop — the website knows.</p>
+        <p data-si>භාණ්ඩ, මිල සහ තොග POS එකෙන්ම එනවා. කඩේ විකුණුවොත් වෙබ් එකත් දන්නවා.</p>
+      </div>
+      <div class="chips">
+        <span class="chip g">PayHere</span><span class="chip g" data-en>Koko · pay in 3</span><span class="chip g" data-si>Koko · වාරික 3</span><span class="chip g">Cash on Delivery</span>
+        <span class="chip" data-en>Delivery by province &amp; district</span><span class="chip" data-si>පළාත / දිස්ත්‍රික් ඩිලිවරි</span>
+        <span class="chip" data-en>Shipping labels</span><span class="chip" data-si>Shipping ලේබල්</span>
+      </div>
+    </section>
+
+    <section class="row2">
+      <div>
+        <div class="label"><span data-en>Made for</span><span data-si>කාටද?</span></div>
+        <div class="who">
+          <span data-en>Retail shops</span><span data-si>සිල්ලර කඩ</span>
+          <span data-en>Multi-branch chains</span><span data-si>ශාඛා ව්‍යාපාර</span>
+          <span data-en>Shops going online</span><span data-si>ඔන්ලයින් යන කඩ</span>
+          <span data-en>Growing SMEs abroad</span><span data-si>විදේශ කුඩා ව්‍යාපාර</span>
+        </div>
+      </div>
+      <div>
+        <div class="label"><span data-en>Live in days</span><span data-si>දින කිහිපයකින් live</span></div>
+        <div class="steps">
+          <div class="step"><i>1</i><span data-en><b>Free demo</b> with products like yours</span><span data-si>ඔබේ වගේම භාණ්ඩ එක්ක <b>නොමිලේ demo</b></span></div>
+          <div class="step"><i>2</i><span data-en><b>We set up</b> branches, users, products, printers</span><span data-si>ශාඛා, පරිශීලකයන්, භාණ්ඩ, printers <b>අපිම සකස් කරනවා</b></span></div>
+          <div class="step"><i>3</i><span data-en><b>Start selling</b> — switch on the web store anytime</span><span data-si><b>විකුණන්න පටන් ගන්න</b> — වෙබ් ස්ටෝර් එක ඕනෑම වෙලාවක</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div>
+      <h2 data-en>Book your free demo today</h2>
+      <h2 data-si>අදම නොමිලේ demo එකක් වෙන් කරගන්න</h2>
+      <p>AizoTech Pvt Ltd · Sri Lanka</p>
+    </div>
+    <div class="contact">
+      <div>WhatsApp / <span data-en>Call</span><span data-si>දුරකථන</span>: <span class="ph">[PHONE]</span></div>
+      <div><span class="ph">[EMAIL]</span> · <span class="ph">[WEBSITE]</span></div>
+    </div>
+  </footer>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get('lang') === 'si') {
+    document.documentElement.lang = 'si';
+    document.title = 'X-POS — පත්‍රිකාව';
+  }
+</script>
+</body>
+</html>
