@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X-POS — Sales Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* One deck, two languages: add ?lang=si to the URL (or press L) for Sinhala.
+     Arrow keys / space / click to move. Print (Ctrl+P) gives one slide per page. */
+  :root {
+    --ink: #0F172A; --ink-2: #334155; --muted: #475569; --line: #E2E8F0;
+    --ground: #F8FAFC; --indigo: #4F46E5; --indigo-dark: #3730A3; --indigo-soft: #EEF2FF;
+    --emerald: #10B981; --emerald-dark: #047857; --emerald-soft: #ECFDF5;
+    --head: "Space Grotesk", "Noto Sans Sinhala", sans-serif;
+    --body: "Inter", "Noto Sans Sinhala", sans-serif;
+  }
+  html[lang="si"] { --head: "Noto Sans Sinhala", sans-serif; --body: "Noto Sans Sinhala", "Inter", sans-serif; }
+  html[lang="en"] [data-si], html[lang="si"] [data-en] { display: none !important; }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #1E293B; font-family: var(--body); color: var(--ink); }
+  .deck { width: 100vw; height: 100vh; display: grid; place-items: center; overflow: hidden; }
+  .slide {
+    width: 1280px; height: 720px; background: var(--ground); position: absolute;
+    padding: 64px 80px; display: none; flex-direction: column; overflow: hidden;
+    transform-origin: center center;
+  }
+  .slide.active { display: flex; }
+  h1, h2, h3 { font-family: var(--head); margin: 0; letter-spacing: -0.01em; line-height: 1.12; }
+  html[lang="si"] h1, html[lang="si"] h2, html[lang="si"] h3 { line-height: 1.4; letter-spacing: 0; }
+  p { margin: 0; }
+  .kicker { font-size: 18px; font-weight: 600; color: var(--emerald-dark); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+  html[lang="si"] .kicker { letter-spacing: 0; text-transform: none; font-size: 20px; }
+  h2 { font-size: 50px; max-width: 1000px; }
+  html[lang="si"] h2 { font-size: 42px; }
+  .sub { font-size: 23px; color: var(--muted); margin-top: 16px; max-width: 900px; line-height: 1.5; }
+  .foot { position: absolute; left: 80px; right: 80px; bottom: 28px; display: flex; justify-content: space-between; font-size: 14px; color: #64748B; }
+  .brand { font-family: "Space Grotesk", sans-serif; font-weight: 700; color: var(--ink); }
+
+  /* Title & end slides */
+  .dark { background: var(--ink); color: #CBD5E1; }
+  .dark h1, .dark h2 { color: #fff; }
+  .dark .foot { color: #94A3B8; }
+  .dark .brand { color: #fff; }
+  .title-wrap { margin: auto 0; }
+  .logo { display: flex; align-items: center; gap: 14px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 32px; color: #fff; margin-bottom: 48px; }
+  .logo-mark { width: 52px; height: 52px; border-radius: 13px; background: var(--indigo); display: grid; place-items: center; font-size: 28px; }
+  .dark h1 { font-size: 78px; max-width: 1050px; }
+  html[lang="si"] .dark h1 { font-size: 60px; }
+  .dark h1 em { font-style: normal; color: #A5B4FC; }
+  .dark .sub { color: #CBD5E1; }
+
+  /* Layouts */
+  .body { margin-top: 40px; display: grid; gap: 24px; min-height: 0; align-items: start; align-content: start; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; }
+  .card h3 { font-size: 24px; margin-bottom: 10px; }
+  html[lang="si"] .card h3 { font-size: 22px; }
+  .card p { font-size: 18px; color: var(--muted); line-height: 1.5; }
+  .card.accent { background: var(--indigo); border-color: var(--indigo); }
+  .card.accent h3, .card.accent p { color: #fff; }
+  .num { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 18px; color: var(--indigo); margin-bottom: 8px; }
+  ul.list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  ul.list li { display: flex; gap: 14px; font-size: 21px; color: var(--ink-2); line-height: 1.45; }
+  html[lang="si"] ul.list li { font-size: 19px; }
+  ul.list li::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 10px; border-radius: 50%; background: var(--emerald); }
+  .pain li::before { background: #F59E0B; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { padding: 8px 16px; border-radius: 999px; background: var(--indigo-soft); color: var(--indigo-dark); font-weight: 600; font-size: 17px; }
+  .chip.g { background: var(--emerald-soft); color: var(--emerald-dark); }
+  .panel { background: var(--indigo-dark); color: #E0E7FF; border-radius: 18px; padding: 30px; display: flex; flex-direction: column; gap: 18px; }
+  .panel h3 { color: #fff; font-size: 22px; }
+  .panel .chip { background: rgba(255,255,255,.14); color: #fff; }
+  .placeholder { background: #FEF3C7; color: #78350F; border-radius: 6px; padding: 0 8px; }
+
+  /* Mini POS mock */
+  .mock { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 24px 50px -28px rgba(15,23,42,.4); font-size: 15px; }
+  .mock-bar { background: var(--ink); color: #fff; padding: 12px 18px; display: flex; justify-content: space-between; }
+  .mock-row { display: flex; justify-content: space-between; padding: 10px 18px; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+  .mock-row b { color: var(--ink); }
+  .mock-total { font-family: "Space Grotesk", sans-serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+  .mock-pay { display: flex; gap: 8px; padding: 14px 18px; }
+  .mock-pay span { flex: 1; text-align: center; border: 1px solid var(--line); border-radius: 8px; padding: 8px 0; font-weight: 600; }
+  .mock-pay .on { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+
+  /* Controls (hidden in print) */
+  .controls { position: fixed; right: 16px; top: 16px; display: flex; gap: 8px; z-index: 5; }
+  .controls button { min-width: 44px; min-height: 44px; border-radius: 10px; border: 0; background: #fff; color: var(--ink); font: 600 15px var(--body); cursor: pointer; padding: 0 14px; }
+  .controls button:focus-visible { outline: 3px solid var(--emerald); }
+  .counter { color: #CBD5E1; font: 500 14px var(--body); align-self: center; padding: 0 6px; }
+
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body { background: none; }
+    .deck { display: block; width: auto; height: auto; overflow: visible; }
+    .slide { display: flex !important; position: relative; transform: none !important; page-break-after: always; break-after: page; }
+    .controls { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1. Title -->
+<section class="slide dark">
+  <div class="title-wrap">
+    <div class="logo"><span class="logo-mark">X</span>X-POS</div>
+    <h1 data-en>Run your whole business from <em>one screen</em>.</h1>
+    <h1 data-si>ඔබේ මුළු ව්‍යාපාරයම <em>එකම තිරයකින්</em>.</h1>
+    <p class="sub" data-en>POS billing, multi-branch stock, your own online store, staff payroll and profit reports — built in Sri Lanka by AizoTech.</p>
+    <p class="sub" data-si>POS බිල්පත්, ශාඛා තොග, ඔබේම ඔන්ලයින් ස්ටෝර්, සේවක වැටුප් සහ ලාභ වාර්තා — ශ්‍රී ලංකාවේදී AizoTech විසින් නිර්මාණය කළා.</p>
+  </div>
+  <div class="foot"><span class="brand">AizoTech Pvt Ltd</span><span>[PHONE] · [EMAIL]</span></div>
+</section>
+
+<!-- 2. Problem -->
+<section class="slide">
+  <div class="kicker"><span data-en>The problem</span><span data-si>ගැටලුව</span></div>
+  <h2 data-en>Most shops run on five disconnected tools.</h2>
+  <h2 data-si>බොහෝ කඩ දුවන්නේ එකිනෙකට සම්බන්ධ නැති මෙවලම් පහකින්.</h2>
+  <div class="body cols-2">
+    <ul class="list pain">
+      <li data-en>Bills in a book or a basic billing app</li>
+      <li data-si>බිල් පොතක හෝ සරල බිල් ඇප් එකක</li>
+      <li data-en>Stock counted by hand or in Excel</li>
+      <li data-si>තොග අතින් හෝ Excel වල ගණන් කිරීම</li>
+      <li data-en>A website or Facebook page that doesn't know what's in stock</li>
+      <li data-si>තොගය ගැන නොදන්නා වෙබ් සයිට් එකක් හෝ Facebook පිටුවක්</li>
+      <li data-en>Cash per branch only known at month end</li>
+      <li data-si>ශාඛාවක මුදල් තත්ත්වය දැනගන්නේ මාසය අන්තිමට විතරයි</li>
+      <li data-en>Salaries, attendance and EPF/ETF in a notebook</li>
+      <li data-si>වැටුප්, පැමිණීම සහ EPF/ETF පොතක</li>
+    </ul>
+    <div class="card accent" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
+      <h3 data-en>The cost</h3><h3 data-si>එහි පාඩුව</h3>
+      <p data-en>Lost sales from out-of-stock items, mistakes between branches, hours of re-typing — and no clear answer to "how much did we actually make today?"</p>
+      <p data-si>තොග ඉවර වී නැතිවන විකුණුම්, ශාඛා අතර වැරදි, නැවත නැවත type කරන පැය ගණන් — සහ "අද ඇත්තටම කොච්චර ලාභද?" කියන ප්‍රශ්නයට පැහැදිලි උත්තරයක් නැති වීම.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>2</span></div>
+</section>
+
+<!-- 3. Solution -->
+<section class="slide">
+  <div class="kicker"><span data-en>The solution</span><span data-si>විසඳුම</span></div>
+  <h2 data-en>X-POS: one system, six modules, one login.</h2>
+  <h2 data-si>X-POS: එකම පද්ධතියක්, කොටස් හයක්, එකම login එකක්.</h2>
+  <div class="body cols-3">
+    <div class="card"><div class="num">01</div><h3 data-en>Point of sale</h3><h3 data-si>විකුණුම් (POS)</h3><p data-en>Billing, barcodes, thermal bills, credit sales</p><p data-si>බිල් කැපීම, barcode, thermal බිල්, ණය විකුණුම්</p></div>
+    <div class="card"><div class="num">02</div><h3 data-en>Stock</h3><h3 data-si>තොග</h3><p data-en>Per branch, per colour, with full history</p><p data-si>ශාඛාව සහ වර්ණය අනුව, සම්පූර්ණ ඉතිහාසය සමඟ</p></div>
+    <div class="card"><div class="num">03</div><h3 data-en>Online store</h3><h3 data-si>ඔන්ලයින් ස්ටෝර්</h3><p data-en>Your web shop with PayHere, Koko and COD</p><p data-si>PayHere, Koko සහ COD සහිත ඔබේම වෙබ් ස්ටෝර්</p></div>
+    <div class="card"><div class="num">04</div><h3 data-en>Staff &amp; payroll</h3><h3 data-si>සේවක සහ වැටුප්</h3><p data-en>Attendance check-in, salaries, EPF/ETF</p><p data-si>පැමිණීම, වැටුප්, EPF/ETF</p></div>
+    <div class="card"><div class="num">05</div><h3 data-en>Money &amp; reports</h3><h3 data-si>මුදල් සහ වාර්තා</h3><p data-en>Money Book, profit, VAT, item-wise sales</p><p data-si>Money Book, ලාභය, VAT, භාණ්ඩ අනුව විකුණුම්</p></div>
+    <div class="card"><div class="num">06</div><h3 data-en>Dealers &amp; team</h3><h3 data-si>ඩීලර් සහ කණ්ඩායම</h3><p data-en>Dealer pricing approvals, chat, notifications</p><p data-si>ඩීලර් මිල අනුමැතිය, chat, දැනුම්දීම්</p></div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>3</span></div>
+</section>
+
+<!-- 4. POS -->
+<section class="slide">
+  <div class="kicker"><span data-en>Point of sale</span><span data-si>විකුණුම් (POS)</span></div>
+  <h2 data-en>Fast at the counter. Correct on paper.</h2>
+  <h2 data-si>කවුන්ටරයේ ඉක්මනින්. කඩදාසියේ නිවැරදිව.</h2>
+  <div class="body cols-2" style="align-items:start">
+    <ul class="list">
+      <li data-en>Scan a barcode or search — the bill builds itself</li>
+      <li data-si>Barcode ස්කෑන් කරන්න හෝ සොයන්න — බිල තනියම හැදෙනවා</li>
+      <li data-en>80mm thermal bills, A4 invoices, emailed PDFs</li>
+      <li data-si>80mm thermal බිල්, A4 ඉන්වොයිස්, email කළ හැකි PDF</li>
+      <li data-en>Split payments, credit sales and outstanding recovery</li>
+      <li data-si>ගෙවීම් බෙදීම, ණයට විකිණීම සහ හිඟ මුදල් අයකර ගැනීම</li>
+      <li data-en>Quotations, discounts, warranty printed on the bill</li>
+      <li data-si>Quotation, වට්ටම්, බිලේම මුද්‍රණය වන වගකීම් කාලය</li>
+      <li data-en>Print your own EAN-13 barcode labels</li>
+      <li data-si>ඔබේම EAN-13 barcode ලේබල් මුද්‍රණය</li>
+    </ul>
+    <div class="mock" role="img" aria-label="Example bill">
+      <div class="mock-bar"><b data-en>New Sale</b><b data-si>නව විකුණුම</b><span data-en>Kandy branch</span><span data-si>මහනුවර ශාඛාව</span></div>
+      <div class="mock-row"><span data-en>Teak chair × 4</span><span data-si>තේක්ක පුටුව × 4</span><b>74,000</b></div>
+      <div class="mock-row"><span data-en>Dining table × 1</span><span data-si>කෑම මේසය × 1</span><b>96,000</b></div>
+      <div class="mock-row"><span data-en>Discount</span><span data-si>වට්ටම</span><b>−5,000</b></div>
+      <div class="mock-row mock-total"><span data-en>Total</span><span data-si>එකතුව</span><span>LKR 165,000</span></div>
+      <div class="mock-pay"><span class="on" data-en>Cash</span><span class="on" data-si>මුදල්</span><span data-en>Card</span><span data-si>කාඩ්</span><span data-en>Split</span><span data-si>බෙදා</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>4</span></div>
+</section>
+
+<!-- 5. Stock & branches -->
+<section class="slide">
+  <div class="kicker"><span data-en>Stock &amp; branches</span><span data-si>තොග සහ ශාඛා</span></div>
+  <h2 data-en>Know what's on every shelf, in every branch.</h2>
+  <h2 data-si>හැම ශාඛාවකම, හැම රාක්කයකම මොනවද තියෙන්නේ කියලා දැනගන්න.</h2>
+  <div class="body cols-2">
+    <ul class="list">
+      <li data-en>Stock per branch and store location</li>
+      <li data-si>ශාඛාව සහ ගබඩාව අනුව තොග</li>
+      <li data-en>Every movement recorded — sale, transfer, adjustment</li>
+      <li data-si>හැම චලනයක්ම සටහන් වෙනවා — විකිණීම, මාරු කිරීම, ගැළපීම</li>
+      <li data-en>Colour and variant stock, with photos</li>
+      <li data-si>වර්ණ සහ ප්‍රභේද අනුව තොග, ඡායාරූප සමඟ</li>
+      <li data-en>Low-stock filters and sold-out handling</li>
+      <li data-si>අඩු තොග පෙරහන සහ Sold out පාලනය</li>
+    </ul>
+    <div class="card" style="display:flex;flex-direction:column;gap:16px;justify-content:center">
+      <h3 data-en>Branch control</h3><h3 data-si>ශාඛා පාලනය</h3>
+      <p data-en>Owners see everything. Branch staff see only their branch — stock, sales and the Money Book for cash in and out.</p>
+      <p data-si>හිමිකරුට සියල්ල පේනවා. ශාඛා සේවකයන්ට පේන්නේ තමන්ගේ ශාඛාව පමණයි — තොග, විකුණුම් සහ මුදල් ආදායම් / වියදම් සඳහා Money Book.</p>
+      <div class="chips"><span class="chip" data-en>Role-based access</span><span class="chip" data-si>භූමිකාව අනුව ප්‍රවේශය</span><span class="chip g" data-en>Per-branch Money Book</span><span class="chip g" data-si>ශාඛා Money Book</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>5</span></div>
+</section>
+
+<!-- 6. Online store -->
+<section class="slide">
+  <div class="kicker"><span data-en>Online store included</span><span data-si>ඔන්ලයින් ස්ටෝර් එකත් එක්කම</span></div>
+  <h2 data-en>Your shop and your website, finally connected.</h2>
+  <h2 data-si>ඔබේ කඩයි වෙබ් සයිට් එකයි, දැන් එකට වැඩ.</h2>
+  <div class="body cols-2">
+    <ul class="list">
+      <li data-en>Products, prices and stock come straight from the POS</li>
+      <li data-si>භාණ්ඩ, මිල සහ තොග POS එකෙන්ම එනවා</li>
+      <li data-en>Customers pay by card (PayHere), in 3 (Koko) or cash on delivery</li>
+      <li data-si>කාඩ් (PayHere), වාරික 3 (Koko) හෝ Cash on Delivery</li>
+      <li data-en>Delivery charged by province and district, automatically</li>
+      <li data-si>පළාත සහ දිස්ත්‍රික්කය අනුව ඩිලිවරි ගාස්තු ස්වයංක්‍රීයව</li>
+      <li data-en>New orders alert in the POS — pack, label, ship</li>
+      <li data-si>අලුත් ඇණවුම් POS එකේ දැනුම්දීමක් ලෙස — pack කර, ලේබල් කර, යවන්න</li>
+    </ul>
+    <div class="panel">
+      <h3 data-en>Checkout</h3><h3 data-si>ගෙවීම්</h3>
+      <div class="chips"><span class="chip">PayHere</span><span class="chip">Koko</span><span class="chip">Cash on Delivery</span></div>
+      <h3 data-en>Your brand</h3><h3 data-si>ඔබේ brand එක</h3>
+      <div class="chips"><span class="chip" data-en>Banners</span><span class="chip" data-si>බැනර්</span><span class="chip" data-en>Brand logos</span><span class="chip" data-si>Brand ලාංඡන</span><span class="chip" data-en>Theme colours</span><span class="chip" data-si>තේමා වර්ණ</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>6</span></div>
+</section>
+
+<!-- 7. People & money -->
+<section class="slide">
+  <div class="kicker"><span data-en>Staff, money &amp; reports</span><span data-si>සේවක, මුදල් සහ වාර්තා</span></div>
+  <h2 data-en>The back office, without the paperwork.</h2>
+  <h2 data-si>කඩදාසි නැතිව, පසුපස කාර්යාලය.</h2>
+  <div class="body cols-3">
+    <div class="card"><h3 data-en>Staff &amp; payroll</h3><h3 data-si>සේවක සහ වැටුප්</h3>
+      <ul class="list" style="gap:10px">
+        <li style="font-size:18px" data-en>Employee records</li><li style="font-size:18px" data-si>සේවක තොරතුරු</li>
+        <li style="font-size:18px" data-en>QR + location check-in</li><li style="font-size:18px" data-si>QR + ස්ථාන පැමිණීම</li>
+        <li style="font-size:18px" data-en>Salary payments</li><li style="font-size:18px" data-si>වැටුප් ගෙවීම්</li>
+        <li style="font-size:18px" data-en>EPF / ETF report</li><li style="font-size:18px" data-si>EPF / ETF වාර්තාව</li>
+      </ul></div>
+    <div class="card"><h3 data-en>Money</h3><h3 data-si>මුදල්</h3>
+      <ul class="list" style="gap:10px">
+        <li style="font-size:18px" data-en>Money Book per branch</li><li style="font-size:18px" data-si>ශාඛා Money Book</li>
+        <li style="font-size:18px" data-en>Other expenses</li><li style="font-size:18px" data-si>වෙනත් වියදම්</li>
+        <li style="font-size:18px" data-en>Bank details</li><li style="font-size:18px" data-si>බැංකු විස්තර</li>
+        <li style="font-size:18px" data-en>Dealer price approvals</li><li style="font-size:18px" data-si>ඩීලර් මිල අනුමැතිය</li>
+      </ul></div>
+    <div class="card"><h3 data-en>Reports</h3><h3 data-si>වාර්තා</h3>
+      <ul class="list" style="gap:10px">
+        <li style="font-size:18px" data-en>Day-wise &amp; net profit</li><li style="font-size:18px" data-si>දිනපතා සහ ශුද්ධ ලාභය</li>
+        <li style="font-size:18px" data-en>Item-wise sales</li><li style="font-size:18px" data-si>භාණ්ඩ අනුව විකුණුම්</li>
+        <li style="font-size:18px" data-en>VAT / tax &amp; expenses</li><li style="font-size:18px" data-si>VAT / බදු සහ වියදම්</li>
+        <li style="font-size:18px" data-en>Profit overview dashboard</li><li style="font-size:18px" data-si>ලාභ සාරාංශ dashboard</li>
+      </ul></div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>7</span></div>
+</section>
+
+<!-- 8. Why X-POS -->
+<section class="slide">
+  <div class="kicker"><span data-en>Why X-POS</span><span data-si>ඇයි X-POS?</span></div>
+  <h2 data-en>Built for how Sri Lankan businesses actually work.</h2>
+  <h2 data-si>ශ්‍රී ලාංකික ව්‍යාපාර ඇත්තටම වැඩ කරන විදිහටම හදපු එකක්.</h2>
+  <div class="body cols-2">
+    <div class="card"><h3 data-en>Sinhala-ready</h3><h3 data-si>සිංහලට සූදානම්</h3><p data-en>Bills and invoices print Sinhala correctly. Demos and support in Sinhala or English.</p><p data-si>බිල්පත් සහ ඉන්වොයිස්වල සිංහල නිවැරදිව මුද්‍රණය වෙනවා. Demo සහ සහාය සිංහලෙන් හෝ ඉංග්‍රීසියෙන්.</p></div>
+    <div class="card"><h3 data-en>Local payments</h3><h3 data-si>දේශීය ගෙවීම්</h3><p data-en>PayHere, Koko and cash on delivery — the way Sri Lankans pay online.</p><p data-si>PayHere, Koko සහ Cash on Delivery — ලාංකිකයන් ඔන්ලයින් ගෙවන විදිහටම.</p></div>
+    <div class="card"><h3 data-en>Your own instance</h3><h3 data-si>ඔබටම වෙන් වූ පද්ධතියක්</h3><p data-en>Each business runs on its own separate system and database — no shared data.</p><p data-si>හැම ව්‍යාපාරයක්ම වෙනම පද්ධතියක, වෙනම දත්ත ගබඩාවක — දත්ත බෙදාගැනීමක් නැහැ.</p></div>
+    <div class="card"><h3 data-en>Set up for you</h3><h3 data-si>අපිම සකස් කරනවා</h3><p data-en>We load your products, branches and users, and connect your printers.</p><p data-si>ඔබේ භාණ්ඩ, ශාඛා සහ පරිශීලකයන් අපිම ඇතුළත් කරලා printers සම්බන්ධ කරනවා.</p></div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span>8</span></div>
+</section>
+
+<!-- 9. Plans -->
+<section class="slide">
+  <div class="kicker"><span data-en>Getting started</span><span data-si>පටන් ගන්න හැටි</span></div>
+  <h2 data-en>Demo, setup, live — in days.</h2>
+  <h2 data-si>Demo, සැකසීම, live — දින කිහිපයකින්.</h2>
+  <div class="body cols-3">
+    <div class="card"><h3 data-en>Shop</h3><h3 data-si>කඩය</h3><p style="font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 12px"><span class="placeholder">[LKR —]</span></p><p data-en>POS, thermal bills, stock for one location, barcode labels, reports.</p><p data-si>POS, thermal බිල්, එක් ස්ථානයක තොග, barcode ලේබල්, වාර්තා.</p></div>
+    <div class="card accent"><h3 data-en>Shop + Online</h3><h3 data-si>කඩය + ඔන්ලයින්</h3><p style="font-size:28px;font-weight:700;margin:6px 0 12px"><span class="placeholder">[LKR —]</span></p><p data-en>Everything in Shop, plus your web store with PayHere, Koko, COD and delivery charges.</p><p data-si>"කඩය" හි සියල්ල සහ PayHere, Koko, COD සහ ඩිලිවරි ගාස්තු සහිත වෙබ් ස්ටෝර්.</p></div>
+    <div class="card"><h3 data-en>Multi-branch</h3><h3 data-si>ශාඛා කිහිපයක්</h3><p style="font-size:28px;font-weight:700;color:var(--ink);margin:6px 0 12px"><span class="placeholder">[LKR —]</span></p><p data-en>Everything above, plus unlimited branches, staff &amp; payroll, Money Book, dealer pricing.</p><p data-si>ඉහත සියල්ල සහ අසීමිත ශාඛා, සේවක සහ වැටුප්, Money Book, ඩීලර් මිල.</p></div>
+  </div>
+  <div class="foot"><span class="brand">X-POS</span><span data-en>Setup, training and support included</span><span data-si>සැකසීම, පුහුණුව සහ සහාය ඇතුළත්</span></div>
+</section>
+
+<!-- 10. CTA -->
+<section class="slide dark">
+  <div class="title-wrap">
+    <div class="logo"><span class="logo-mark">X</span>X-POS</div>
+    <h1 data-en>Let's see it on <em>your</em> business.</h1>
+    <h1 data-si>ඔබේම ව්‍යාපාරයේ <em>බලමු</em>.</h1>
+    <p class="sub" data-en>Book a free demo — we'll show billing, stock and the web store with products like yours.</p>
+    <p class="sub" data-si>නොමිලේ demo එකක් වෙන් කරගන්න — ඔබේ වගේම භාණ්ඩ එක්ක බිල් කැපීම, තොග සහ වෙබ් ස්ටෝර් එක පෙන්නනවා.</p>
+    <p class="sub" style="color:#fff;font-size:26px;margin-top:36px">WhatsApp / <span data-en>Call</span><span data-si>දුරකථන</span>: <span class="placeholder">[PHONE]</span> &nbsp;·&nbsp; <span class="placeholder">[EMAIL]</span></p>
+  </div>
+  <div class="foot"><span class="brand">AizoTech Pvt Ltd</span><span>X-POS</span></div>
+</section>
+
+</div>
+
+<div class="controls">
+  <button type="button" id="lang" aria-label="Switch language">සිංහල</button>
+  <button type="button" id="prev" aria-label="Previous slide">‹</button>
+  <span class="counter" id="count">1 / 10</span>
+  <button type="button" id="next" aria-label="Next slide">›</button>
+</div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var root = document.documentElement;
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+  var langBtn = document.getElementById('lang');
+
+  function setLang(l) {
+    root.lang = l;
+    langBtn.textContent = l === 'si' ? 'English' : 'සිංහල';
+    document.title = l === 'si' ? 'X-POS — විකුණුම් ඉදිරිපත් කිරීම' : 'X-POS — Sales Deck';
+  }
+  function fit() {
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    slides.forEach(function (el) { el.style.transform = 'scale(' + s + ')'; });
+  }
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (el, k) { el.classList.toggle('active', k === i); });
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    history.replaceState(null, '', location.pathname + location.search + '#' + (i + 1));
+  }
+
+  setLang(params.get('lang') === 'si' ? 'si' : 'en');
+  langBtn.addEventListener('click', function () { setLang(root.lang === 'si' ? 'en' : 'si'); });
+  document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
+  document.getElementById('next').addEventListener('click', function () { show(i + 1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'l' || e.key === 'L') setLang(root.lang === 'si' ? 'en' : 'si');
+  });
+  window.addEventListener('resize', fit);
+  fit(); show(i);
+})();
+</script>
+</body>
+</html>
